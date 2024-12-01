@@ -3,12 +3,26 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ApolloClient,ApolloProvider,InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloProvider, InMemoryCache, ApolloLink, HttpLink } from '@apollo/client';
+
+const httpLink = new HttpLink({ uri: 'https://foodreceipe-webapp.onrender.com/graphql' });
+
+const errorLink = ApolloLink.from([
+  (operation, forward) => {
+    return forward(operation).map((response) => {
+      if (response.errors) {
+        console.error(response.errors);
+      }
+      return response;
+    });
+  },
+]);
 
 const client = new ApolloClient({
-   uri: 'https://foodreceipe-webapp.onrender.com/graphql',
-   cache: new InMemoryCache()
-})
+  link: ApolloLink.from([errorLink, httpLink]),
+  cache: new InMemoryCache(),
+});
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
