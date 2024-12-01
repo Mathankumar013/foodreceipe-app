@@ -4,6 +4,7 @@ import './receipe.css';
 import { CREATE_RECEIPE } from '../data/mutation';
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'
 
 function Receipe() {
     const [form, setForm] = useState({
@@ -50,7 +51,11 @@ function Receipe() {
             navigate('/');
         } catch (error) {
             console.error("Error submitting recipe:", error);
-            alert("Failed to submit recipe.");
+            Swal.fire({
+                title: "Good job!",
+                text: "You clicked the button!",
+                icon: "success"
+              });
         }
     };
 
