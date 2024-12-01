@@ -6,6 +6,7 @@ const {graphqlHTTP}=require('express-graphql')
 const { GraphQLObjectType, GraphQLSchema } = require('graphql')
 const sequelize = require('./data/model/db')
 const cors = require('cors')
+const APP_PORT = process.env.APP_PORT || 3000;
 
 app.use(express.json())
 app.use(cors())
@@ -38,6 +39,7 @@ sequelize.sync().then(()=>{
     console.log('failed to running')
 })
 
-app.listen(process.env.PORT,()=>{
-    console.log(`http://localhost:${process.env.PORT}`)
+
+app.listen(APP_PORT,()=>{
+    console.log(`http://localhost:${APP_PORT}`)
 })
